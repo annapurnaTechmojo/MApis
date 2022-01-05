@@ -1,0 +1,3739 @@
+{
+  "info": {
+    "_postman_id": "43b7e067-4729-409c-98cd-cee6abe77125",
+    "name": "d9_brand",
+    "schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "authorize",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "pm.environment.set(\"nonceId\", uuidv4());",
+              "console.log(pm.environment.get(\"nonceId\"));",
+              "",
+              "",
+              "function uuidv4() {",
+              "  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {",
+              "    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);",
+              "    return v.toString(16);",
+              "  });",
+              "}"
+            ],
+            "type": "text/javascript",
+            "id": "1e9d43ed-d87e-45bf-88ce-61d428681623"
+          }
+        }
+      ],
+      "_postman_id": "5a589bc7-2d53-42f4-9285-88ca48f7df50",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [],
+          "options": {
+            "urlencoded": {}
+          }
+        },
+        "url": {
+          "raw": "https://{{host}}/auth/v1/authorize?response_type=code&scope=mg&client_id=uGA9jAausVA1Z2GUV28VLHKrc2Tujkpj&flowid=9aa4f632-d914-11e9-8a34-2a2ae2dbcce4&redirect_url=http://localhost&state=anna&nonce={{nonceId}}",
+          "protocol": "https",
+          "host": [
+            "{{host}}"
+          ],
+          "path": [
+            "auth",
+            "v1",
+            "authorize"
+          ],
+          "query": [
+            {
+              "key": "response_type",
+              "value": "code"
+            },
+            {
+              "key": "scope",
+              "value": "mg"
+            },
+            {
+              "key": "client_id",
+              "value": "uGA9jAausVA1Z2GUV28VLHKrc2Tujkpj"
+            },
+            {
+              "key": "flowid",
+              "value": "9aa4f632-d914-11e9-8a34-2a2ae2dbcce4"
+            },
+            {
+              "key": "redirect_url",
+              "value": "http://localhost"
+            },
+            {
+              "key": "state",
+              "value": "anna"
+            },
+            {
+              "key": "nonce",
+              "value": "{{nonceId}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "token",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "344d52a7-2d41-4c41-a9f9-08b79da39185",
+            "exec": [
+              "var jsonData = JSON.parse(responseBody);",
+              "pm.environment.set(\"AccessToken\", jsonData.access_token);",
+              "pm.environment.set(\"RefreshToken\", jsonData.refresh_token);",
+              "",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "_postman_id": "9d0bbc39-eac5-4a1b-9590-e57b918b4ae6",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "basic",
+          "basic": {
+            "password": "NBpX3Q7cfdATg2yA",
+            "username": "uGA9jAausVA1Z2GUV28VLHKrc2Tujkpj"
+          }
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/x-www-form-urlencoded",
+            "type": "text"
+          },
+          {
+            "key": "X-Request-ID",
+            "value": "venu-token"
+          }
+        ],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "grant_type",
+              "value": "authorization_code",
+              "type": "text"
+            },
+            {
+              "key": "code",
+              "value": "ObAB3PE7",
+              "type": "text"
+            }
+          ],
+          "options": {
+            "urlencoded": {}
+          }
+        },
+        "url": "https://{{host_main}}/auth/v1/oauth2/token"
+      },
+      "response": []
+    },
+    {
+      "name": "initiatePayments",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "e5ec9355-97b9-4987-a6d4-145bbe2d67dd",
+            "exec": [
+              "var jsonData = pm.response.json();\r",
+              "pm.environment.set(\"paymentId\", jsonData.payment.paymentId);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "_postman_id": "699c7a37-cb42-4df3-8a15-aa1266ff7827",
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {
+          "content-type": true,
+          "accept": true
+        },
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "{{AccessToken}}"
+          }
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "x-request-id",
+            "type": "text",
+            "value": "Venu"
+          },
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json;version=1",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"merchant\": {\n        \"brandId\": \"d96cc89c-0630-464d-b8d3-36bd527139a9\",\n        \"redirectUrl\": \"https://www.techmojo.in\",\n        \"language\": \"EN\",\n        \"notificationUrl\": \"https://www.techmojo.in/\"\n    },\n    \"payment\": {\n        \"paymentMethod\": \"PIS\",\n        \"_providerId\":\"a761d84b-9052-43f5-9f22-537924705715\",\n        \"providerCountryCode\": \"LT\",\n        \"_debtorName\": \"annaąčę\",\n        \"_debtorAccount\": {\n        \"iban\": \"DE78240176185167050131\"\n        },\n\n        \"instructedAmount\": {\n            \"amount\": \"150001.00\",\n            \"currency\": \"EUR\"\n        },\n        \"remittanceInformationUnstructured\": \"annaáéíóúąčę\"\n    },\n    \"identifiers\": {\n        \"merchantReference\": \"{{$guid}}\",\n        \"endToEndId\": \"TTKMAEFENDPTQKXQDWUE\",\n        \"creditorReference\":\"RF12232423\"\n    },\n    \"consumer\": {\n        \"firstName\":\"firstÈĤ1.213451\",\n        \"lastName\": \"annaąčęáéíóú123\",\n        \"consumerId\":\"1213\",\n        \"ipAddress\": \"182.72.169.111\",\n        \"email\":\"deepika@techmojo.in\"\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "https://{{host_main}}/merchant/payments"
+      },
+      "response": []
+    },
+    {
+      "name": "TheCheckerSapi",
+      "_postman_id": "55c6cb16-41bb-4dd1-98fd-547e66be574f",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.thechecker.co/v2/verify?email=anna@yopmail.com&api_key=bd020b42b5f6011ca77f9729c91d6e82df1df6255714292770b1b6f8abd44ac7",
+          "protocol": "https",
+          "host": [
+            "api",
+            "thechecker",
+            "co"
+          ],
+          "path": [
+            "v2",
+            "verify"
+          ],
+          "query": [
+            {
+              "key": "email",
+              "value": "anna@yopmail.com"
+            },
+            {
+              "key": "api_key",
+              "value": "bd020b42b5f6011ca77f9729c91d6e82df1df6255714292770b1b6f8abd44ac7"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "emailable",
+      "_postman_id": "2cd3a358-bbbf-4b96-8b63-250d61402e7c",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.emailable.com/v1/verify?email=varu%nwalia100@gmail.co&api_key=live_130d828ed38b6903f763&timeout=20",
+          "protocol": "https",
+          "host": [
+            "api",
+            "emailable",
+            "com"
+          ],
+          "path": [
+            "v1",
+            "verify"
+          ],
+          "query": [
+            {
+              "key": "email",
+              "value": "varu%nwalia100@gmail.co"
+            },
+            {
+              "key": "api_key",
+              "value": "live_130d828ed38b6903f763"
+            },
+            {
+              "key": "timeout",
+              "value": "20"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "refresh token",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "92d7e703-6128-4f67-9728-38afefbb8df7",
+            "exec": [
+              "var jsonData = JSON.parse(responseBody);",
+              "pm.environment.set(\"AccessToken\", jsonData.access_token);",
+              "pm.environment.set(\"RefreshToken\", jsonData.refresh_token);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "_postman_id": "11d622e9-b2f6-4548-9d86-027beb87f4dc",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "basic",
+          "basic": {
+            "password": "NBpX3Q7cfdATg2yA",
+            "username": "uGA9jAausVA1Z2GUV28VLHKrc2Tujkpj"
+          }
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          },
+          {
+            "key": "X-Request-ID",
+            "value": "56654654564654654654654"
+          }
+        ],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "grant_type",
+              "value": "refresh_token",
+              "type": "text"
+            },
+            {
+              "key": "refresh_token",
+              "value": "{{RefreshToken}}",
+              "type": "text"
+            }
+          ],
+          "options": {
+            "urlencoded": {}
+          }
+        },
+        "url": "https://{{host_main}}/auth/v1/oauth2/token"
+      },
+      "response": []
+    },
+    {
+      "name": "initiatePayments Copy",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "9a1085a4-fadb-4b91-a8df-834b756617cc",
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "_postman_id": "d120e736-6a34-46f8-b83c-1f19c02905dc",
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {
+          "content-type": true,
+          "accept": true
+        },
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "{{AccessToken}}"
+          }
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "x-request-id",
+            "type": "text",
+            "value": "Venu"
+          },
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json;version=1",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"merchant\": {\n        \"brandId\": \"d96cc89c-0630-464d-b8d3-36bd527139a9\",\n        \"redirectUrl\": \"https://www.techmojo.in\",\n        \"language\": \"EN\"\n    },\n    \"payment\": {\n        \"paymentMethod\": \"PIS\",\n        \"providerCountryCode\": \"DE\",\n        \"debtorName\": \"John Doe\",\n        \"creditorAccount\": {\n            \"iban\": \"LT681942768282714369\"\n        },\n        \"instructedAmount\": {\n            \"amount\": \"1.00\",\n            \"currency\": \"EUR\"\n        },\n        \"remittanceInformationUnstructured\": \"verifybotransactions\"\n    },\n    \"identifiers\": {\n        \"merchantReference\": \"{{$guid}}\",\n        \"endToEndId\": \"sdf45\"\n    },\n    \"consumer\": {\n        \"firstName\":\"createapiconnectioncall8\",\n        \"lastName\": \"skipaisflow1\",\n        \"ipAddress\": \"182.72.169.111\",\n        \"email\": \"annapurna@techmojo.in\"\n        \n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "https://{{mtls_host}}/merchant/payments"
+      },
+      "response": []
+    },
+    {
+      "name": "getPaymentDetails",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "83a0579e-566b-4c07-b5e1-58070fcc8674",
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "_postman_id": "19d952fc-c695-4f86-89a6-f33595cc0ac4",
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {
+          "accept": true
+        },
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "{{AccessToken}}"
+          }
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "x-request-id",
+            "value": "b885e3cc-8fe2-4f6b-91a1-3289d663b41b",
+            "type": "text"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json;version=1",
+            "type": "text"
+          }
+        ],
+        "url": "https://{{mtls_host}}/merchant/payments/588dae5c-faef-4d9f-a66c-04b9a977d7f7"
+      },
+      "response": []
+    },
+    {
+      "name": "brandIDRemoved",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "fdbb7dcc-01e7-4746-ab90-4b5a75011b57",
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "_postman_id": "a9d05e39-40ca-457b-873e-b77436071fae",
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {
+          "content-type": true,
+          "accept": true
+        },
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "{{AccessToken}}"
+          }
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "x-request-id",
+            "type": "text",
+            "value": "Venu"
+          },
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json;version=1",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"merchant\": {\n        \"redirectUrl\": \"https://www.techmojo.in\",\n        \"language\": \"EN\"\n    },\n    \"payment\": {\n        \"paymentMethod\": \"PIS\",\n        \"providerCountryCode\": \"DE\",\n        \"debtorName\": \"John Doe\",\n        \"creditorAccount\": {\n            \"iban\": \"LT681942768282714369\"\n        },\n        \"instructedAmount\": {\n            \"amount\": \"1.00\",\n            \"currency\": \"EUR\"\n        },\n        \"remittanceInformationUnstructured\": \"verifybotransactions\"\n    },\n    \"identifiers\": {\n        \"merchantReference\": \"{{$guid}}\",\n        \"endToEndId\": \"sdf45\"\n    },\n    \"consumer\": {\n        \"firstName\":\"createapiconnectioncall8\",\n        \"lastName\": \"skipaisflow1\",\n        \"ipAddress\": \"182.72.169.111\",\n        \"email\": \"annapurna@techmojo.in\"\n        \n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "https://{{mtls_host}}/merchant/payments"
+      },
+      "response": []
+    },
+    {
+      "name": "reDirectUrlRemoved",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "0b8fe697-09b5-4b15-850b-1a911c80ccc8",
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "_postman_id": "af29b2b6-596f-4bdf-9500-1f6b3e0c1b34",
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {
+          "content-type": true,
+          "accept": true
+        },
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "{{AccessToken}}"
+          }
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "x-request-id",
+            "type": "text",
+            "value": "Venu"
+          },
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json;version=1",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"merchant\": {\n        \"brandId\": \"d96cc89c-0630-464d-b8d3-36bd527139a9\",\n        \"language\": \"EN\"\n    },\n    \"payment\": {\n        \"paymentMethod\": \"PIS\",\n        \"providerCountryCode\": \"DE\",\n        \"debtorName\": \"John Doe\",\n        \"creditorAccount\": {\n            \"iban\": \"LT681942768282714369\"\n        },\n        \"instructedAmount\": {\n            \"amount\": \"1.00\",\n            \"currency\": \"EUR\"\n        },\n        \"remittanceInformationUnstructured\": \"verifybotransactions\"\n    },\n    \"identifiers\": {\n        \"merchantReference\": \"{{$guid}}\",\n        \"endToEndId\": \"sdf45\"\n    },\n    \"consumer\": {\n        \"firstName\":\"createapiconnectioncall8\",\n        \"lastName\": \"skipaisflow1\",\n        \"ipAddress\": \"182.72.169.111\",\n        \"email\": \"annapurna.1092@gmail.com\"\n        \n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "https://{{mtls_host}}/merchant/payments"
+      },
+      "response": []
+    },
+    {
+      "name": "LanguageRemoved",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "e4decff6-b406-4979-bc1b-859817d29df5",
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "_postman_id": "4a702248-1aec-4bba-a287-a0590c05e431",
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {
+          "content-type": true,
+          "accept": true
+        },
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "{{AccessToken}}"
+          }
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "x-request-id",
+            "type": "text",
+            "value": "Venu"
+          },
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json;version=1",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"merchant\": {\n        \"brandId\": \"d96cc89c-0630-464d-b8d3-36bd527139a9\",\n        \"redirectUrl\": \"https://www.techmojo.in\"\n    },\n    \"payment\": {\n        \"paymentMethod\": \"PIS\",\n        \"providerCountryCode\": \"DE\",\n        \"debtorName\": \"John Doe\",\n        \"creditorAccount\": {\n            \"iban\": \"LT681942768282714369\"\n        },\n        \"instructedAmount\": {\n            \"amount\": \"1.00\",\n            \"currency\": \"EUR\"\n        },\n        \"remittanceInformationUnstructured\": \"verifybotransactions\"\n    },\n    \"identifiers\": {\n        \"merchantReference\": \"{{$guid}}\",\n        \"endToEndId\": \"sdf45\"\n    },\n    \"consumer\": {\n        \"firstName\":\"createapiconnectioncall8\",\n        \"lastName\": \"skipaisflow1\",\n        \"ipAddress\": \"182.72.169.111\",\n        \"email\": \"annapurna@techmojo.in\"\n        \n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "https://{{mtls_host}}/merchant/payments"
+      },
+      "response": []
+    },
+    {
+      "name": "RemovedPaymentMethod",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "5b142ede-2717-4bde-a5fb-b5f2d2491c08",
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "_postman_id": "862b8bbb-0215-4e99-848c-24162a535d1a",
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {
+          "content-type": true,
+          "accept": true
+        },
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "{{AccessToken}}"
+          }
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "x-request-id",
+            "type": "text",
+            "value": "Venu"
+          },
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json;version=1",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"merchant\": {\n        \"brandId\": \"d96cc89c-0630-464d-b8d3-36bd527139a9\",\n        \"redirectUrl\": \"https://www.techmojo.in\",\n        \"language\": \"EN\"\n    },\n    \"payment\": {\n        \"providerCountryCode\": \"DE\",\n        \"debtorName\": \"John Doe\",\n        \"creditorAccount\": {\n            \"iban\": \"LT681942768282714369\"\n        },\n        \"instructedAmount\": {\n            \"amount\": \"1.00\",\n            \"currency\": \"EUR\"\n        },\n        \"remittanceInformationUnstructured\": \"verifybotransactions\"\n    },\n    \"identifiers\": {\n        \"merchantReference\": \"{{$guid}}\",\n        \"endToEndId\": \"sdf45\"\n    },\n    \"consumer\": {\n        \"firstName\":\"createapiconnectioncall8\",\n        \"lastName\": \"skipaisflow1\",\n        \"ipAddress\": \"182.72.169.111\",\n        \"email\": \"annapurna@techmojo.in\"\n        \n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "https://{{mtls_host}}/merchant/payments"
+      },
+      "response": []
+    },
+    {
+      "name": "providerCountryCodeRemoved",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "25672d2e-1737-49f6-a4ce-0eeafdfebb6f",
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "_postman_id": "86eef665-7158-4bce-a1fb-8133199c1e4c",
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {
+          "content-type": true,
+          "accept": true
+        },
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "{{AccessToken}}"
+          }
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "x-request-id",
+            "type": "text",
+            "value": "Venu"
+          },
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json;version=1",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"merchant\": {\n        \"brandId\": \"d96cc89c-0630-464d-b8d3-36bd527139a9\",\n        \"redirectUrl\": \"https://www.techmojo.in\",\n        \"language\": \"EN\"\n    },\n    \"payment\": {\n        \"paymentMethod\": \"PIS\",\n        \n        \"debtorName\": \"John Doe\",\n        \"creditorAccount\": {\n            \"iban\": \"LT681942768282714369\"\n        },\n        \"instructedAmount\": {\n            \"amount\": \"1.00\",\n            \"currency\": \"EUR\"\n        },\n        \"remittanceInformationUnstructured\": \"verifybotransactions\"\n    },\n    \"identifiers\": {\n        \"merchantReference\": \"{{$guid}}\",\n        \"endToEndId\": \"sdf45\"\n    },\n    \"consumer\": {\n        \"firstName\":\"createapiconnectioncall8\",\n        \"lastName\": \"skipaisflow1\",\n        \"ipAddress\": \"182.72.169.111\",\n        \"email\": \"annapurna@techmojo.in\"\n        \n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "https://{{mtls_host}}/merchant/payments"
+      },
+      "response": []
+    },
+    {
+      "name": "DebtornameRemoved",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "a74d5cd3-d817-4d77-a150-89bd4e4829c1",
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "_postman_id": "8ea8fcd3-7099-463f-8dc8-27cd97dfa1ce",
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {
+          "content-type": true,
+          "accept": true
+        },
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "{{AccessToken}}"
+          }
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "x-request-id",
+            "type": "text",
+            "value": "Venu"
+          },
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json;version=1",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"merchant\": {\n        \"brandId\": \"d96cc89c-0630-464d-b8d3-36bd527139a9\",\n        \"redirectUrl\": \"https://www.techmojo.in\",\n        \"language\": \"EN\"\n    },\n    \"payment\": {\n        \"paymentMethod\": \"PIS\",\n        \"providerCountryCode\": \"DE\",\n        \n        \"creditorAccount\": {\n            \"iban\": \"LT681942768282714369\"\n        },\n        \"instructedAmount\": {\n            \"amount\": \"1.00\",\n            \"currency\": \"EUR\"\n        },\n        \"remittanceInformationUnstructured\": \"verifybotransactions\"\n    },\n    \"identifiers\": {\n        \"merchantReference\": \"{{$guid}}\",\n        \"endToEndId\": \"sdf45\"\n    },\n    \"consumer\": {\n        \"firstName\":\"createapiconnectioncall8\",\n        \"lastName\": \"skipaisflow1\",\n        \"ipAddress\": \"182.72.169.111\",\n        \"email\": \"annapurna@techmojo.in\"\n        \n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "https://{{mtls_host}}/merchant/payments"
+      },
+      "response": []
+    },
+    {
+      "name": "CreditorAccountRemoved",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "7bed7134-56f8-4eb3-89be-7c682a34b595",
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "_postman_id": "221d25c0-8381-487d-a4f2-797e03a083e6",
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {
+          "content-type": true,
+          "accept": true
+        },
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "{{AccessToken}}"
+          }
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "x-request-id",
+            "type": "text",
+            "value": "Venu"
+          },
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json;version=1",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"merchant\": {\n        \"brandId\": \"d96cc89c-0630-464d-b8d3-36bd527139a9\",\n        \"redirectUrl\": \"https://www.techmojo.in\",\n        \"language\": \"EN\"\n    },\n    \"payment\": {\n        \"paymentMethod\": \"PIS\",\n        \"providerCountryCode\": \"DE\",\n        \"debtorName\": \"John Doe\",\n        \"instructedAmount\": {\n            \"amount\": \"1.00\",\n            \"currency\": \"EUR\"\n        },\n        \"remittanceInformationUnstructured\": \"verifybotransactions\"\n    },\n    \"identifiers\": {\n        \"merchantReference\": \"{{$guid}}\",\n        \"endToEndId\": \"sdf45\"\n    },\n    \"consumer\": {\n        \"firstName\":\"createapiconnectioncall8\",\n        \"lastName\": \"skipaisflow1\",\n        \"ipAddress\": \"182.72.169.111\",\n        \"email\": \"annapurna@techmojo.in\"\n        \n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "https://{{mtls_host}}/merchant/payments"
+      },
+      "response": []
+    },
+    {
+      "name": "AmountRemoved",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "79fe8f38-c4cb-4d94-a9dc-12fa46ad1704",
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "_postman_id": "bad97669-0e30-4b0b-ac79-67104dd628ca",
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {
+          "content-type": true,
+          "accept": true
+        },
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "{{AccessToken}}"
+          }
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "x-request-id",
+            "type": "text",
+            "value": "Venu"
+          },
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json;version=1",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"merchant\": {\n        \"brandId\": \"d96cc89c-0630-464d-b8d3-36bd527139a9\",\n        \"redirectUrl\": \"https://www.techmojo.in\",\n        \"language\": \"EN\"\n    },\n    \"payment\": {\n        \"paymentMethod\": \"PIS\",\n        \"providerCountryCode\": \"DE\",\n        \"debtorName\": \"John Doe\",\n        \"creditorAccount\": {\n            \"iban\": \"LT681942768282714369\"\n        },\n        \"instructedAmount\": {\n            \n            \"currency\": \"EUR\"\n        },\n        \"remittanceInformationUnstructured\": \"verifybotransactions\"\n    },\n    \"identifiers\": {\n        \"merchantReference\": \"{{$guid}}\",\n        \"endToEndId\": \"sdf45\"\n    },\n    \"consumer\": {\n        \"firstName\":\"createapiconnectioncall8\",\n        \"lastName\": \"skipaisflow1\",\n        \"ipAddress\": \"182.72.169.111\",\n        \"email\": \"annapurna@techmojo.in\"\n        \n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "https://{{mtls_host}}/merchant/payments"
+      },
+      "response": []
+    },
+    {
+      "name": "currencyRemoved",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "0d124eff-83c4-40e7-9908-7972777918bd",
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "_postman_id": "b1eed898-7c50-4d40-916e-8a5be9a94289",
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {
+          "content-type": true,
+          "accept": true
+        },
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "{{AccessToken}}"
+          }
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "x-request-id",
+            "type": "text",
+            "value": "Venu"
+          },
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json;version=1",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"merchant\": {\n        \"brandId\": \"d96cc89c-0630-464d-b8d3-36bd527139a9\",\n        \"redirectUrl\": \"https://www.techmojo.in\",\n        \"language\": \"EN\"\n    },\n    \"payment\": {\n        \"paymentMethod\": \"PIS\",\n        \"providerCountryCode\": \"DE\",\n        \"debtorName\": \"John Doe\",\n        \"creditorAccount\": {\n            \"iban\": \"LT681942768282714369\"\n        },\n        \"instructedAmount\": {\n            \"amount\": \"1.00\"\n        },\n        \"remittanceInformationUnstructured\": \"verifybotransactions\"\n    },\n    \"identifiers\": {\n        \"merchantReference\": \"{{$guid}}\",\n        \"endToEndId\": \"sdf45\"\n    },\n    \"consumer\": {\n        \"firstName\":\"createapiconnectioncall8\",\n        \"lastName\": \"skipaisflow1\",\n        \"ipAddress\": \"182.72.169.111\",\n        \"email\": \"annapurna@techmojo.in\"\n        \n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "https://{{mtls_host}}/merchant/payments"
+      },
+      "response": []
+    },
+    {
+      "name": "remittanceinfoRemoved",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "f934a69e-b544-4c4f-a58d-a3bdbf173aca",
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "_postman_id": "b0171b97-6467-40ca-b2f6-89c0bdb96d15",
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {
+          "content-type": true,
+          "accept": true
+        },
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "{{AccessToken}}"
+          }
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "x-request-id",
+            "type": "text",
+            "value": "Venu"
+          },
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json;version=1",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"merchant\": {\n        \"brandId\": \"d96cc89c-0630-464d-b8d3-36bd527139a9\",\n        \"redirectUrl\": \"https://www.techmojo.in\",\n        \"language\": \"EN\"\n    },\n    \"payment\": {\n        \"paymentMethod\": \"PIS\",\n        \"providerCountryCode\": \"DE\",\n        \"debtorName\": \"John Doe\",\n        \"creditorAccount\": {\n            \"iban\": \"LT681942768282714369\"\n        },\n        \"instructedAmount\": {\n            \"amount\": \"1.00\",\n            \"currency\": \"EUR\"\n        },\n        \"remittanceInformationUnstructured\": \"verifybotransactions\"\n    },\n    \"identifiers\": {\n        \"merchantReference\": \"{{$guid}}\",\n        \"endToEndId\": \"sdf45\"\n    },\n    \"consumer\": {\n        \"firstName\":\"createapiconnectioncall8\",\n        \"lastName\": \"skipaisflow1\",\n        \"ipAddress\": \"182.72.169.111\",\n        \"email\": \"annapurna@techmojo.in\"\n        \n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "https://{{mtls_host}}/merchant/payments"
+      },
+      "response": []
+    },
+    {
+      "name": "merchantRefRemoved",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "a4b4bd67-bedc-4e68-b39b-51c28a29a365",
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "_postman_id": "7d9e1c8f-eb0b-4dcc-bf00-dcd56ecf52ad",
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {
+          "content-type": true,
+          "accept": true
+        },
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "{{AccessToken}}"
+          }
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "x-request-id",
+            "type": "text",
+            "value": "Venu"
+          },
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json;version=1",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"merchant\": {\n        \"brandId\": \"d96cc89c-0630-464d-b8d3-36bd527139a9\",\n        \"redirectUrl\": \"https://www.techmojo.in\",\n        \"language\": \"EN\"\n    },\n    \"payment\": {\n        \"paymentMethod\": \"PIS\",\n        \"providerCountryCode\": \"DE\",\n        \"debtorName\": \"John Doe\",\n        \"creditorAccount\": {\n            \"iban\": \"LT681942768282714369\"\n        },\n        \"instructedAmount\": {\n            \"amount\": \"1.00\",\n            \"currency\": \"EUR\"\n        },\n        \"remittanceInformationUnstructured\": \"verifybotransactions\"\n    },\n    \"identifiers\": {\n        \"endToEndId\": \"sdf45\"\n    },\n    \"consumer\": {\n        \"firstName\":\"createapiconnectioncall8\",\n        \"lastName\": \"skipaisflow1\",\n        \"ipAddress\": \"182.72.169.111\",\n        \"email\": \"annapurna@techmojo.in\"\n        \n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "https://{{mtls_host}}/merchant/payments"
+      },
+      "response": []
+    },
+    {
+      "name": "endToEndIDRemoved",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "39071ec0-20bf-43f1-ad57-ae65da0e8f3f",
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "_postman_id": "10d702b2-30a2-426d-834f-cee06f7f50ab",
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {
+          "content-type": true,
+          "accept": true
+        },
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "{{AccessToken}}"
+          }
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "x-request-id",
+            "type": "text",
+            "value": "Venu"
+          },
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json;version=1",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"merchant\": {\n        \"brandId\": \"d96cc89c-0630-464d-b8d3-36bd527139a9\",\n        \"redirectUrl\": \"https://www.techmojo.in\",\n        \"language\": \"EN\"\n    },\n    \"payment\": {\n        \"paymentMethod\": \"PIS\",\n        \"providerCountryCode\": \"DE\",\n        \"debtorName\": \"John Doe\",\n        \"creditorAccount\": {\n            \"iban\": \"LT681942768282714369\"\n        },\n        \"instructedAmount\": {\n            \"amount\": \"1.00\",\n            \"currency\": \"EUR\"\n        },\n        \"remittanceInformationUnstructured\": \"verifybotransactions\"\n    },\n    \"identifiers\": {\n        \"merchantReference\": \"{{$guid}}\",\n        \"endToEndId\": \"sdf45\"\n    },\n    \"consumer\": {\n        \"firstName\":\"createapiconnectioncall8\",\n        \"lastName\": \"skipaisflow1\",\n        \"ipAddress\": \"182.72.169.111\",\n        \"email\": \"annapurna@techmojo.in\"\n        \n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "https://{{mtls_host}}/merchant/payments"
+      },
+      "response": []
+    },
+    {
+      "name": "FirstNameRemoved",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "ecac199a-faf4-4963-9eda-606f66b5f210",
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "_postman_id": "7f2401bf-3ca8-4215-b34e-c2467f6dc9b6",
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {
+          "content-type": true,
+          "accept": true
+        },
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "{{AccessToken}}"
+          }
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "x-request-id",
+            "type": "text",
+            "value": "Venu"
+          },
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json;version=1",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"merchant\": {\n        \"brandId\": \"d96cc89c-0630-464d-b8d3-36bd527139a9\",\n        \"redirectUrl\": \"https://www.techmojo.in\",\n        \"language\": \"EN\"\n    },\n    \"payment\": {\n        \"paymentMethod\": \"PIS\",\n        \"providerCountryCode\": \"DE\",\n        \"debtorName\": \"John Doe\",\n        \"creditorAccount\": {\n            \"iban\": \"LT681942768282714369\"\n        },\n        \"instructedAmount\": {\n            \"amount\": \"1.00\",\n            \"currency\": \"EUR\"\n        },\n        \"remittanceInformationUnstructured\": \"verifybotransactions\"\n    },\n    \"identifiers\": {\n        \"merchantReference\": \"{{$guid}}\",\n        \"endToEndId\": \"sdf45\"\n    },\n    \"consumer\": {\n        \"firstName\":\"createapiconnectioncall8\",\n        \"lastName\": \"skipaisflow1\",\n        \"ipAddress\": \"182.72.169.111\",\n        \"email\": \"annapurna@techmojo.in\"\n        \n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "https://{{mtls_host}}/merchant/payments"
+      },
+      "response": []
+    },
+    {
+      "name": "LastNameRemoved",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "c42acbd4-1a56-4c17-8f8f-6a5ad9f65450",
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "_postman_id": "499b6aad-a4ae-426b-bdfe-f2ac9267fdae",
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {
+          "content-type": true,
+          "accept": true
+        },
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "{{AccessToken}}"
+          }
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "x-request-id",
+            "type": "text",
+            "value": "Venu"
+          },
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json;version=1",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"merchant\": {\n        \"brandId\": \"d96cc89c-0630-464d-b8d3-36bd527139a9\",\n        \"redirectUrl\": \"https://www.techmojo.in\",\n        \"language\": \"EN\"\n    },\n    \"payment\": {\n        \"paymentMethod\": \"PIS\",\n        \"providerCountryCode\": \"DE\",\n        \"debtorName\": \"John Doe\",\n        \"creditorAccount\": {\n            \"iban\": \"LT681942768282714369\"\n        },\n        \"instructedAmount\": {\n            \"amount\": \"1.00\",\n            \"currency\": \"EUR\"\n        },\n        \"remittanceInformationUnstructured\": \"verifybotransactions\"\n    },\n    \"identifiers\": {\n        \"merchantReference\": \"{{$guid}}\",\n        \"endToEndId\": \"sdf45\"\n    },\n    \"consumer\": {\n        \"firstName\":\"createapiconnectioncall8\",\n        \"lastName\": \"skipaisflow1\",\n        \"ipAddress\": \"182.72.169.111\",\n        \"email\": \"annapurna@techmojo.in\"\n        \n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "https://{{mtls_host}}/merchant/payments"
+      },
+      "response": []
+    },
+    {
+      "name": "ipAddrRemoved",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "6777cc3b-582e-4e90-845b-75bb59341177",
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "_postman_id": "3385e3ee-ffea-4ef9-be1f-af0b804aaf1c",
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {
+          "content-type": true,
+          "accept": true
+        },
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "{{AccessToken}}"
+          }
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "x-request-id",
+            "type": "text",
+            "value": "Venu"
+          },
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json;version=1",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"merchant\": {\n        \"brandId\": \"d96cc89c-0630-464d-b8d3-36bd527139a9\",\n        \"redirectUrl\": \"https://www.techmojo.in\",\n        \"language\": \"EN\"\n    },\n    \"payment\": {\n        \"paymentMethod\": \"PIS\",\n        \"providerCountryCode\": \"DE\",\n        \"debtorName\": \"John Doe\",\n        \"creditorAccount\": {\n            \"iban\": \"LT681942768282714369\"\n        },\n        \"instructedAmount\": {\n            \"amount\": \"1.00\",\n            \"currency\": \"EUR\"\n        },\n        \"remittanceInformationUnstructured\": \"verifybotransactions\"\n    },\n    \"identifiers\": {\n        \"merchantReference\": \"{{$guid}}\",\n        \"endToEndId\": \"sdf45\"\n    },\n    \"consumer\": {\n        \"firstName\":\"createapiconnectioncall8\",\n        \"lastName\": \"skipaisflow1\",\n        \"ipAddress\": \"182.72.169.111\",\n        \"email\": \"annapurna@techmojo.in\"\n        \n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "https://{{mtls_host}}/merchant/payments"
+      },
+      "response": []
+    },
+    {
+      "name": "emailRemoved",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "21b3a92d-ff58-471e-8235-9e6b85e4c507",
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "_postman_id": "f2f6ef83-22ef-46ea-9e20-04ac1a579660",
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {
+          "content-type": true,
+          "accept": true
+        },
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "{{AccessToken}}"
+          }
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "x-request-id",
+            "type": "text",
+            "value": "Venu"
+          },
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json;version=1",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"merchant\": {\n        \"brandId\": \"d96cc89c-0630-464d-b8d3-36bd527139a9\",\n        \"redirectUrl\": \"https://www.techmojo.in\",\n        \"language\": \"EN\"\n    },\n    \"payment\": {\n        \"paymentMethod\": \"PIS\",\n        \"providerCountryCode\": \"DE\",\n        \"debtorName\": \"John Doe\",\n        \"creditorAccount\": {\n            \"iban\": \"LT681942768282714369\"\n        },\n        \"instructedAmount\": {\n            \"amount\": \"1.00\",\n            \"currency\": \"EUR\"\n        },\n        \"remittanceInformationUnstructured\": \"verifybotransactions\"\n    },\n    \"identifiers\": {\n        \"merchantReference\": \"{{$guid}}\",\n        \"endToEndId\": \"sdf45\"\n    },\n    \"consumer\": {\n        \"firstName\":\"createapiconnectioncall8\",\n        \"lastName\": \"skipaisflow1\",\n        \"ipAddress\": \"182.72.169.111\",\n        \"email\": \"annapurna@techmojo.in\"\n        \n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "https://{{mtls_host}}/merchant/payments"
+      },
+      "response": []
+    },
+    {
+      "name": "GetProviderList_GPL",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "id": "8bd7fd3d-9380-4a67-8aac-dde47be92b78",
+            "exec": [
+              "pm.environment.set(\"nonceId\", uuidv4());",
+              "console.log(pm.environment.get(\"nonceId\"));",
+              "",
+              "",
+              "function uuidv4() {",
+              "  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {",
+              "    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);",
+              "    return v.toString(16);",
+              "  });",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "id": "8c612aa6-4891-430a-ac24-575910787d03",
+            "exec": [
+              "pm.test(\"Country code DE\", () => {\r",
+              "  const responseJson = pm.response.json();\r",
+              "  pm.expect(responseJson.providers[0].countryCode).to.eql(\"DE\");\r",
+              " \r",
+              "});\r",
+              "pm.test(\"Status code is 200\", () => {\r",
+              "  pm.response.to.have.status(200);\r",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "_postman_id": "eb72a156-5b45-43e4-8afa-4a0f42165bbf",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true,
+        "disabledSystemHeaders": {
+          "accept": true
+        }
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "{{AccessToken}}"
+          }
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "x-request-id",
+            "value": "89899",
+            "type": "text"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json;version=1",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [],
+          "options": {
+            "urlencoded": {}
+          }
+        },
+        "url": {
+          "raw": "https://{{mtls_host}}/merchant/providers?pageNo=1&pageSize=10000&countryCode=LT",
+          "protocol": "https",
+          "host": [
+            "{{mtls_host}}"
+          ],
+          "path": [
+            "merchant",
+            "providers"
+          ],
+          "query": [
+            {
+              "key": "pageNo",
+              "value": "1"
+            },
+            {
+              "key": "pageSize",
+              "value": "10000"
+            },
+            {
+              "key": "provider_key_owner",
+              "value": "saltedge",
+              "disabled": true
+            },
+            {
+              "key": "countryCode",
+              "value": "LT"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "initiatePaymentsCountryList",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "6c19046e-e10a-47c2-b85c-1fcf701d865d",
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "_postman_id": "076b4a92-b5e8-4c4f-a73f-53a9533a7dde",
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {
+          "content-type": true,
+          "accept": true
+        },
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "{{AccessToken}}"
+          }
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "x-request-id",
+            "type": "text",
+            "value": "Venu"
+          },
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json;version=1",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"merchant\": {\n        \"brandId\": \"d96cc89c-0630-464d-b8d3-36bd527139a9\",\n        \"redirectUrl\": \"https://www.techmojo.in\",\n        \"language\": \"EN\"\n    },\n    \"payment\": {\n        \"paymentMethod\": \"PIS\",\n        \"providerCountryCode\": \"DE\",\n        \"debtorAccount\": {\n\t\t\"iban\": \"DE60500105175948368624\"\n\t\t},\n\t\t\"debtorName\": \"John Doe\",\n        \"creditorAccount\": {\n            \"iban\": \"LT681942768282714369\"\n        },\n        \n        \"instructedAmount\": {\n            \"amount\": \"1.00\",\n            \"currency\": \"EUR\"\n        },\n        \"remittanceInformationUnstructured\": \"releaseDemo1.132\"\n    },\n    \"identifiers\": {\n        \"merchantReference\": \"{{$guid}}\",\n        \"endToEndId\": \"sdf45\"\n    },\n    \"consumer\": {\n        \"firstName\": \"thirteenrelease1\",\n        \"lastName\": \"release1434\",\n        \"ipAddress\": \"182.72.169.111\",\n        \"email\": \"annapurna@techmojo.in\"\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "https://{{mtls_host}}/merchant/payments"
+      },
+      "response": []
+    },
+    {
+      "name": "debtornamewithabove50",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "0da60f1c-68fd-4825-9fdb-101a8d0ad813",
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "_postman_id": "5d75b865-50b6-44a9-820f-4f63eeaeaa59",
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {
+          "content-type": true,
+          "accept": true
+        },
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "{{AccessToken}}"
+          }
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "x-request-id",
+            "type": "text",
+            "value": "Venu"
+          },
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json;version=1",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"merchant\": {\n        \"brandId\": \"d96cc89c-0630-464d-b8d3-36bd527139a9\",\n        \"redirectUrl\": \"https://www.techmojo.in\",\n        \"language\": \"EN\"\n    },\n    \"payment\": {\n        \"paymentMethod\": \"PIS\",\n        \"providerCountryCode\": \"DE\",\n        \"debtorAccount\": {\n\t\t\"iban\": \"AL35202111090000000001234567AL35202111090000000001\"\n\t\t},\n\t\t\"debtorName\": \"john doe\",\n        \"creditorAccount\": {\n            \"iban\": \"LT681942768282714369\"\n        },\n        \n        \"instructedAmount\": {\n            \"amount\": \"1.00\",\n            \"currency\": \"EUR\"\n        },\n        \"remittanceInformationUnstructured\": \"releaseDemo1.132\"\n    },\n    \"identifiers\": {\n        \"merchantReference\": \"{{$guid}}\",\n        \"endToEndId\": \"sdf45\"\n    },\n    \"consumer\": {\n        \"firstName\": \"thirteenrelease1\",\n        \"lastName\": \"release1434\",\n        \"ipAddress\": \"182.72.169.111\",\n        \"email\": \"annapurna@techmojo.in\"\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "https://{{mtls_host}}/merchant/payments"
+      },
+      "response": []
+    },
+    {
+      "name": "withoutDebtorname",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "4ad9deac-d1d9-478e-b9b5-5d3719798a4d",
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "_postman_id": "8b8c3f60-911b-494e-b569-3959a894d0d6",
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {
+          "content-type": true,
+          "accept": true
+        },
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "{{AccessToken}}"
+          }
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "x-request-id",
+            "type": "text",
+            "value": "Venu"
+          },
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json;version=1",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"merchant\": {\n        \"brandId\": \"d96cc89c-0630-464d-b8d3-36bd527139a9\",\n        \"redirectUrl\": \"https://www.techmojo.in\",\n        \"language\": \"EN\"\n    },\n    \"payment\": {\n        \"paymentMethod\": \"PIS\",\n        \"providerCountryCode\": \"DE\",\n        \"debtorAccount\": {\n\t\t\"iban\": \"AL35202111090000000001234567\"\n\t\t},\n\t\t\"debtorName\": \"\",\n        \"creditorAccount\": {\n            \"iban\": \"LT681942768282714369\"\n        },\n        \n        \"instructedAmount\": {\n            \"amount\": \"1.00\",\n            \"currency\": \"EUR\"\n        },\n        \"remittanceInformationUnstructured\": \"releaseDemo1.132\"\n    },\n    \"identifiers\": {\n        \"merchantReference\": \"{{$guid}}\",\n        \"endToEndId\": \"sdf45\"\n    },\n    \"consumer\": {\n        \"firstName\": \"thirteenrelease1\",\n        \"lastName\": \"release1434\",\n        \"ipAddress\": \"182.72.169.111\",\n        \"email\": \"annapurna@techmojo.in\"\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "https://{{mtls_host}}/merchant/payments"
+      },
+      "response": []
+    },
+    {
+      "name": "withoutDebtorAccount",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "c980710f-fb85-4c3f-830e-434c0f89c81a",
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "_postman_id": "826f8387-8a17-4192-91ea-70416b51dc04",
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {
+          "content-type": true,
+          "accept": true
+        },
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "{{AccessToken}}"
+          }
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "x-request-id",
+            "type": "text",
+            "value": "Venu"
+          },
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json;version=1",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"merchant\": {\n        \"brandId\": \"d96cc89c-0630-464d-b8d3-36bd527139a9\",\n        \"redirectUrl\": \"https://www.techmojo.in\",\n        \"language\": \"EN\"\n    },\n    \"payment\": {\n        \"paymentMethod\": \"PIS\",\n        \"providerCountryCode\": \"DE\",\n        \"debtorAccount\": {\n\t\t\"iban\": \"AL35202111090000000001234567\"\n\t\t},\n\t\t\"debtorName\": \"\",\n        \"creditorAccount\": {\n            \"iban\": \"BOFAUS3DSHA\"\n        },\n        \n        \"instructedAmount\": {\n            \"amount\": \"1.00\",\n            \"currency\": \"EUR\"\n        },\n        \"remittanceInformationUnstructured\": \"releaseDemo1.132\"\n    },\n    \"identifiers\": {\n        \"merchantReference\": \"{{$guid}}\",\n        \"endToEndId\": \"sdf45\"\n    },\n    \"consumer\": {\n        \"firstName\": \"thirteenrelease1\",\n        \"lastName\": \"release1434\",\n        \"ipAddress\": \"182.72.169.111\",\n        \"email\": \"annapurna@techmojo.in\"\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "https://{{mtls_host}}/merchant/payments"
+      },
+      "response": []
+    },
+    {
+      "name": "withoutDebtorAccount",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "9e25a584-cf25-4cda-90d8-3c5ee96d0d62",
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "_postman_id": "f376db7b-df37-4191-bc0a-22ccd4c1c4ee",
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {
+          "content-type": true,
+          "accept": true
+        },
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "{{AccessToken}}"
+          }
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "x-request-id",
+            "type": "text",
+            "value": "Venu"
+          },
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json;version=1",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"merchant\": {\n        \"brandId\": \"d96cc89c-0630-464d-b8d3-36bd527139a9\",\n        \"redirectUrl\": \"https://www.techmojo.in\",\n        \"language\": \"EN\"\n    },\n    \"payment\": {\n        \"paymentMethod\": \"PIS\",\n        \"providerCountryCode\": \"DE\",\n        \"debtorAccount\": {\n\t\t\"iban\": \"BOFAUS3DSHA\"\n\t\t},\n\t\t\"debtorName\": \"annapurna\",\n        \"creditorAccount\": {\n            \"iban\": \"LT681942768282714369\"\n        },\n        \n        \"instructedAmount\": {\n            \"amount\": \"1.00\",\n            \"currency\": \"EUR\"\n        },\n        \"remittanceInformationUnstructured\": \"releaseDemo1.132\"\n    },\n    \"identifiers\": {\n        \"merchantReference\": \"{{$guid}}\",\n        \"endToEndId\": \"sdf45\"\n    },\n    \"consumer\": {\n        \"firstName\": \"thirteenrelease1\",\n        \"lastName\": \"release1434\",\n        \"ipAddress\": \"182.72.169.111\",\n        \"email\": \"annapurna@techmojo.in\"\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "https://{{mtls_host}}/merchant/payments"
+      },
+      "response": []
+    },
+    {
+      "name": "webhook",
+      "_postman_id": "1dae757a-eefc-4a8b-868c-0df5b84e6e9c",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "{{AccessToken}}"
+          }
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n \"data\": {\n\"custom_fields\": {\n\"SessionId\": \"4c6d768d-f589-41ae-b3b8-0d881070aca7\"\n}\n},\n \"error\": {\n     \"error_class\" : \"InteractiveAdapterTimeout\",\n     \"error_message\":\"The whole fetching process took too long to execute\"\n\n }\n}",
+          "options": {
+            "raw": {}
+          }
+        },
+        "url": "https://api6-qa.connectpay.com/saltedge/accountinformation/webhook"
+      },
+      "response": []
+    },
+    {
+      "name": "initiatePayments Copy 2",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "id": "52f9eea0-29a4-440a-bf2a-dbe11d0a95cd"
+          }
+        }
+      ],
+      "_postman_id": "a7a95a10-c266-4012-be59-5b68ad82e8cf",
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {
+          "content-type": true,
+          "accept": true
+        },
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "{{AccessToken}}"
+          }
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "x-request-id",
+            "type": "text",
+            "value": "Venu"
+          },
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json;version=1",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n \"merchant\": {\n \"brandId\":\"d96cc89c-0630-464d-b8d3-36bd527139a9\",\n \"redirectUrl\": \"https://www.techmojo.in\",\n \"language\": \"EN\"\n },\n \"payment\": {\n \"providerCountryCode\":\"GB\",\n \"paymentMethod\": \"PIS\",\n \"creditorAccount\": {\n \"iban\": \"LT681942768282714369\"\n },\n \"creditorName\": \"explorater\",\n \"instructedAmount\": {\n \"amount\": \"1.00\",\n \"currency\": \"EUR\"\n },\n \"remittanceInformationUnstructured\": \"eshopname test\"\n },\n \"identifiers\": {\n \"merchantReference\":\"{{$guid}}\", \n \"endToEndId\": \"gsdjhgsajh1\"\n },\n \"consumer\": {\n \"firstName\": \"gmail1124\",\n \"lastName\": \"user11\",\n \"ipAddress\": \"182.72.169.111\",\n \"consumerId\": \"payment\",\n \"phoneNo\": \"9908260859\",\n \"email\": \"annapurna235@gmail.com\"            \n\n } \n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://pay-qa.connectpay.com?key=aa2215a8-0c65-4353-b846-b63a312b54db",
+          "protocol": "https",
+          "host": [
+            "pay-qa",
+            "connectpay",
+            "com"
+          ],
+          "query": [
+            {
+              "key": "key",
+              "value": "aa2215a8-0c65-4353-b846-b63a312b54db"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "validate Token",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Authorization is present\", function () {",
+              "    let authorization = pm.response.headers.get(\"Authorization\");",
+              "    let jsessionId = pm.response.headers.get(\"jsessionId\");",
+              "    pm.environment.set(\"authorizationHp\", authorization);",
+              "    pm.environment.set(\"jsessionIdHp\", jsessionId);",
+              "});",
+              ""
+            ],
+            "type": "text/javascript",
+            "id": "b619dbf7-84f3-43d0-bfc5-d233d6eac909"
+          }
+        }
+      ],
+      "_postman_id": "74cd8925-eb07-44eb-a22b-cb9a0e0d3eca",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "{{AccessToken}}"
+          }
+        },
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "https://{{hpHost}}/hp/secure/validate/token/feb3de4e-9d0a-4b59-8aac-794702c948c5"
+      },
+      "response": []
+    },
+    {
+      "name": "providerlistGet",
+      "_postman_id": "97a5484f-aeb6-4088-94a7-165665f002d2",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "{{AccessToken}}"
+          }
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json;version=1"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "x-request-id",
+            "value": "b885e3cc-8fe2-4f6b-91a1-3289d663b41b"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer lzAyNOOqTisk8pVbP6GqGgdWn0RP"
+          },
+          {
+            "key": "provider_key_owner",
+            "value": "client",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "https://api-qa.connectpay.com/merchant/providers?countryCode=DE&pageNo=1&pageSize=1000",
+          "protocol": "https",
+          "host": [
+            "api-qa",
+            "connectpay",
+            "com"
+          ],
+          "path": [
+            "merchant",
+            "providers"
+          ],
+          "query": [
+            {
+              "key": "countryCode",
+              "value": "DE"
+            },
+            {
+              "key": "pageNo",
+              "value": "1"
+            },
+            {
+              "key": "pageSize",
+              "value": "1000"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "getCustomerDetails",
+      "_postman_id": "b13d411b-51ae-492b-86c2-fbeead44c4da",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "{{Authorization}}"
+          }
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": "{{url}}/ib-security/secure/banking/agg/customer/getCustomersDetails"
+      },
+      "response": []
+    },
+    {
+      "name": "get countries",
+      "_postman_id": "e203a21f-80a3-41dc-9732-0666488197dd",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{authorizationHp}}",
+            "type": "text"
+          },
+          {
+            "key": "jsessionId",
+            "value": "{{jsessionIdHp}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "https://{{hpHost}}/hp/secure/countries"
+      },
+      "response": []
+    },
+    {
+      "name": "get providers",
+      "_postman_id": "84e27f1f-dc44-45d9-b0ae-75f0e970c9c9",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "type": "text",
+            "value": "{{authorizationHp}}"
+          },
+          {
+            "key": "jsessionId",
+            "type": "text",
+            "value": "{{jsessionIdHp}}"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json;version=1",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "https://{{hpHost}}/hp/secure/providers/DK"
+      },
+      "response": []
+    },
+    {
+      "name": "make payment",
+      "_postman_id": "fbdb8513-1aed-4af7-821d-ea109d1a0b26",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{authorizationHp}}",
+            "type": "text"
+          },
+          {
+            "key": "jsessionId",
+            "value": "{{jsessionIdHp}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "https://{{hpHost}}/hp/secure/payment/e2f78acb-ffe3-4aeb-840a-734334d5d0b0"
+      },
+      "response": []
+    },
+    {
+      "name": "refresh Payment",
+      "_postman_id": "86e54dcf-a71f-41d7-b208-d74ffe0ad3c7",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "SESSION",
+            "value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJWVF8xNTYxNjkwMDE1NTAxMTQxMiIsInZlcmlmaWNhdGlvblRva2VuIjoiVlRfMTU2MTY5MDAxNTUwMTE0MTIiLCJzZXNzaW9uSWQiOiI0NmNmNDdlMi1kYmNkLTQxOTUtYjJjZC01YjI1MDA0YzZiMGMiLCJhdXRoQ29kZSI6IjBmZTRkZDVkLWYzYmItNGQyYS1hOGUzLTExMDFiM2JmZTRlMCIsInVzZXJOYW1lIjoiYW5uYXB1cm5hMjM1QGdtYWlsLmNvbSIsIm1vYmlsZU51bWJlciI6Iis5MSA3OTg5NjcwNTQxIn0.sBm6cTmGknkoG7ppSDyCu7a8x6N7ypGrIzxkBp1r8_-_abGO0DKruLtAttlykqcKsNwSu5B5PH58mS27TJQYjg",
+            "type": "text",
+            "disabled": true
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text",
+            "disabled": true
+          },
+          {
+            "key": "X-Request-ID",
+            "value": "12345678",
+            "type": "text",
+            "disabled": true
+          },
+          {
+            "key": "Accept",
+            "value": "application/json;version=1",
+            "type": "text",
+            "disabled": true
+          },
+          {
+            "key": "Authorization",
+            "value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJOQUctODBhMWU3NDUtZTMyOC00OTBhLTk1MjEtMjM2YjNkMDlhMWIxIiwiYXV0aENvZGUiOiJjZGQxMTIzMS1lODYxLTQ1ZWEtYjQ3NC1jMTJhZGFlZjMwYTciLCJwYXltZW50UmVmZXJlbmNlIjoiTkFHLTgwYTFlNzQ1LWUzMjgtNDkwYS05NTIxLTIzNmIzZDA5YTFiMSJ9.m2QUyU60r5mLJaubjy7qFBeGq9WNrgp056I1y3Ry3XRZSRE0zyLHqT8XVgf6FXILWsbjfI48h4WXwsHgB8TXcQ",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "https://pay-dev.connectpay.com/hp/secure/payment/refresh/20200611.witka18u6h9w5m1fib16kf9e8w"
+      },
+      "response": []
+    },
+    {
+      "name": "get merchant details",
+      "_postman_id": "6ff223c0-f95f-4462-ac0d-7d8928931a14",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "type": "text",
+            "value": "{{authorizationHp}}"
+          },
+          {
+            "key": "jsessionId",
+            "type": "text",
+            "value": "{{jsessionIdHp}}"
+          }
+        ],
+        "url": "https://{{hpHost}}/hp/secure/merchant/details"
+      },
+      "response": []
+    },
+    {
+      "name": "countries",
+      "_postman_id": "7ff7a7e8-7ecd-4766-acef-2dc49b0b3ce7",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "authority",
+            "value": "pay-dev.connectpay.com"
+          },
+          {
+            "key": "pragma",
+            "value": "no-cache"
+          },
+          {
+            "key": "user-agent",
+            "value": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36"
+          },
+          {
+            "key": "content-type",
+            "value": "application/json"
+          },
+          {
+            "key": "accept",
+            "value": "application/json, text/plain, */*"
+          },
+          {
+            "key": "cache-control",
+            "value": "no-cache"
+          },
+          {
+            "key": "authorization",
+            "value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhMzg0MTI2OC00MDViLTQ3OWQtYTA2Zi1jNWM1YjE2ZjZmODQiLCJhdXRoQ29kZSI6IjY4NDEzZDU0LWY5ZDItNGI3OC1hNzA5LTZjODNmZjgyODE4YyIsInBheW1lbnRSZWZlcmVuY2UiOiJhMzg0MTI2OC00MDViLTQ3OWQtYTA2Zi1jNWM1YjE2ZjZmODQifQ.HsEoah0V8xRy0bdw5KAffZ11Gm0f5EmIQxm07dqOpa5nB_4lLeQhiJStWg-yXTaz_Xqh5Y1-UfdLAYp6UpUdpw"
+          },
+          {
+            "key": "jsessionid",
+            "value": "095038b6-1793-47d3-bd99-7cd8d133c59b"
+          },
+          {
+            "key": "expires",
+            "value": "Sat, 01 Jan 2000 00:00:00 GMT"
+          },
+          {
+            "key": "sec-fetch-site",
+            "value": "same-origin"
+          },
+          {
+            "key": "sec-fetch-mode",
+            "value": "cors"
+          },
+          {
+            "key": "sec-fetch-dest",
+            "value": "empty"
+          },
+          {
+            "key": "referer",
+            "value": "https://pay-dev.connectpay.com/?key=68413d54-f9d2-4b78-a709-6c83ff82818c"
+          },
+          {
+            "key": "accept-language",
+            "value": "en-US,en;q=0.9"
+          }
+        ],
+        "url": "https://pay-dev.connectpay.com/hp/secure/countries"
+      },
+      "response": []
+    },
+    {
+      "name": "emailprovider",
+      "_postman_id": "3197e29d-8a1d-4acd-b9c8-480187f433f2",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "authority",
+            "value": "pay-qa.connectpay.com"
+          },
+          {
+            "key": "sec-ch-ua",
+            "value": "\"Google Chrome\";v=\"87\", \" Not;A Brand\";v=\"99\", \"Chromium\";v=\"87\""
+          },
+          {
+            "key": "traceparent",
+            "value": "00-40dfe80d3ddb112544e4acae632fb576-985422903477db9b-01"
+          },
+          {
+            "key": "sec-ch-ua-mobile",
+            "value": "?0"
+          },
+          {
+            "key": "authorization",
+            "value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyMGM0NWFjYi0wZGUwLTRjYjgtYTk1Ny04YzAwMTUwNTdkNTEiLCJhdXRoQ29kZSI6ImUxMDMxYzAxLWU1ZjgtNGM1MC1hYWIzLTFlYjYxNGQ5MTc3NyIsInBheW1lbnRSZWZlcmVuY2UiOiIyMGM0NWFjYi0wZGUwLTRjYjgtYTk1Ny04YzAwMTUwNTdkNTEifQ.womJpeiQEbmX4DugxuJkMIdbDgWLIAzzSEcWbgdnyorDbRJCDZs6XfyHPCLqjUXcdW6rYvq9bUFv4cpzMcQO2w"
+          },
+          {
+            "key": "content-type",
+            "value": "application/json"
+          },
+          {
+            "key": "accept",
+            "value": "application/json, text/plain, */*"
+          },
+          {
+            "key": "user-agent",
+            "value": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36"
+          },
+          {
+            "key": "jsessionid",
+            "value": "8436acbf-86f8-4073-bd6e-8488bc4a3a5e"
+          },
+          {
+            "key": "origin",
+            "value": "https://pay-qa.connectpay.com"
+          },
+          {
+            "key": "sec-fetch-site",
+            "value": "same-origin"
+          },
+          {
+            "key": "sec-fetch-mode",
+            "value": "cors"
+          },
+          {
+            "key": "sec-fetch-dest",
+            "value": "empty"
+          },
+          {
+            "key": "referer",
+            "value": "https://pay-qa.connectpay.com/?key=e1031c01-e5f8-4c50-aab3-1eb614d91777"
+          },
+          {
+            "key": "accept-language",
+            "value": "en-GB,en-US;q=0.9,en;q=0.8"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"emailId\": \"annapurna235@gmail.com\"\n}",
+          "options": {
+            "raw": {}
+          }
+        },
+        "url": "https://pay-qa.connectpay.com/hp/secure/email"
+      },
+      "response": []
+    },
+    {
+      "name": "PISP api",
+      "_postman_id": "0b5df1b5-2183-4734-b735-43b64bfef87c",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "authority",
+            "value": "pay-qa.connectpay.com"
+          },
+          {
+            "key": "sec-ch-ua",
+            "value": "\"Google Chrome\";v=\"87\", \" Not;A Brand\";v=\"99\", \"Chromium\";v=\"87\""
+          },
+          {
+            "key": "accept",
+            "value": "application/json, text/plain, */*"
+          },
+          {
+            "key": "content-type",
+            "value": "application/json"
+          },
+          {
+            "key": "authorization",
+            "value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkM2RmYmUxNi1jN2IwLTQ3YWItODY2OC05OTM4OGJlZjA4ZDIiLCJhdXRoQ29kZSI6IjJlYzgyYjY3LWYyMzUtNDAyYS1hMDI0LWE3ZDFlY2RkMTVlZCIsInBheW1lbnRSZWZlcmVuY2UiOiJkM2RmYmUxNi1jN2IwLTQ3YWItODY2OC05OTM4OGJlZjA4ZDIifQ.6-BmhKBxKR4ZjhXeIytpsFEYcuwrfdLI7-u3Qdarakov6DN8dm6O2uz9tmapqWuPtjCgl7uw05_UvSCwJTaHWw"
+          },
+          {
+            "key": "sec-ch-ua-mobile",
+            "value": "?0"
+          },
+          {
+            "key": "user-agent",
+            "value": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36"
+          },
+          {
+            "key": "jsessionid",
+            "value": "7b9a4e4e-1cbb-4d0c-9b42-9ae09778943e"
+          },
+          {
+            "key": "origin",
+            "value": "https://pay-qa.connectpay.com"
+          },
+          {
+            "key": "sec-fetch-site",
+            "value": "same-origin"
+          },
+          {
+            "key": "sec-fetch-mode",
+            "value": "cors"
+          },
+          {
+            "key": "sec-fetch-dest",
+            "value": "empty"
+          },
+          {
+            "key": "referer",
+            "value": "https://pay-qa.connectpay.com/payment/redirect?key=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkM2RmYmUxNi1jN2IwLTQ3YWItODY2OC05OTM4OGJlZjA4ZDIiLCJhdXRoQ29kZSI6IjJlYzgyYjY3LWYyMzUtNDAyYS1hMDI0LWE3ZDFlY2RkMTVlZCIsInBheW1lbnRSZWZlcmVuY2UiOiJkM2RmYmUxNi1jN2IwLTQ3YWItODY2OC05OTM4OGJlZjA4ZDIifQ.6-BmhKBxKR4ZjhXeIytpsFEYcuwrfdLI7-u3Qdarakov6DN8dm6O2uz9tmapqWuPtjCgl7uw05_UvSCwJTaHWw&payment_id=418041241809193805"
+          },
+          {
+            "key": "accept-language",
+            "value": "en-GB,en-US;q=0.9,en;q=0.8"
+          },
+          {
+            "key": "cookie",
+            "value": "_ga=GA1.2.221576043.1612418405; _fbp=fb.1.1612418414800.1857440657"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {}
+          }
+        },
+        "url": "https://pay-qa.connectpay.com/hp/secure/payment/refresh"
+      },
+      "response": []
+    },
+    {
+      "name": "BO-PISP_TransactionList",
+      "_postman_id": "f13d72bc-6fe2-4597-9b1f-cba32e67c399",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "authority",
+            "value": "pay-admin-stage.connectpay.com"
+          },
+          {
+            "key": "sec-ch-ua",
+            "value": "\"Google Chrome\";v=\"87\", \" Not;A Brand\";v=\"99\", \"Chromium\";v=\"87\""
+          },
+          {
+            "key": "accept",
+            "value": "application/json, text/plain, */*"
+          },
+          {
+            "key": "authorization",
+            "value": "Bearer null"
+          },
+          {
+            "key": "sec-ch-ua-mobile",
+            "value": "?0"
+          },
+          {
+            "key": "user-agent",
+            "value": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36"
+          },
+          {
+            "key": "content-type",
+            "value": "application/json"
+          },
+          {
+            "key": "origin",
+            "value": "https://pay-admin-stage.connectpay.com"
+          },
+          {
+            "key": "sec-fetch-site",
+            "value": "same-origin"
+          },
+          {
+            "key": "sec-fetch-mode",
+            "value": "cors"
+          },
+          {
+            "key": "sec-fetch-dest",
+            "value": "empty"
+          },
+          {
+            "key": "referer",
+            "value": "https://pay-admin-stage.connectpay.com/transaction"
+          },
+          {
+            "key": "accept-language",
+            "value": "en-GB,en-US;q=0.9,en;q=0.8"
+          },
+          {
+            "key": "cookie",
+            "value": "_ga=GA1.2.221576043.1612418405; _fbp=fb.1.1612418414800.1857440657; JSESSIONID=61ee3ecf-4370-4089-bde9-2c6b993d93aa"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"txnType\": null,\n    \"startDate\": \"2021-02-23 12:16:04\",\n    \"endDate\": \"2021-03-01 12:16:04\",\n    \"txnCreatedStartDate\": \"2021-02-23 12:16:04\",\n    \"txnCreatedEndDate\": \"2021-03-01 12:16:04\",\n    \"index\": 50,\n    \"size\": 25,\n    \"currencyList\": null,\n    \"dalberryTxnReference\": \"\",\n    \"merchantTxnId\": \"\",\n    \"merchantName\": \"\",\n    \"brand\": \"\",\n    \"brandId\": \"\",\n    \"creditorIban\": \"\",\n    \"cardType\": \"\",\n    \"paymentInstrument\": \"\",\n    \"providerTxnID\": \"\",\n    \"minTxnAmount\": \"\",\n    \"maxTxnAmount\": \"\",\n    \"methodList\": null,\n    \"txnStatusList\": null,\n    \"txnTypeList\": null,\n    \"customerId\": \"\",\n    \"merchantCustomerId\": \"\",\n    \"merchant\": \"Test Merchant no. 2\",\n    \"merchantList\": [],\n    \"userId\": \"testmerchant2-merchant@connectpay.com\",\n    \"midList\": null,\n    \"profileList\": [\n       \n    ],\n    \"sortByColumnName\": null,\n    \"sortType\": \"DESC\",\n    \"fraudReason\": [],\n    \"fraudLevel\": []\n}",
+          "options": {
+            "raw": {}
+          }
+        },
+        "url": "https://pay-admin-stage.connectpay.com/api/reports/getTransactionInfo"
+      },
+      "response": []
+    },
+    {
+      "name": "{{url}}/ib-security/user/doLogin",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var jsonData = JSON.parse(responseBody);",
+              "postman.setEnvironmentVariable(\"Authorization\", postman.getResponseHeader(\"Authorization\") );",
+              "pm.environment.set(\"requestId\",jsonData.response.requestId);"
+            ],
+            "type": "text/javascript",
+            "id": "94b5d171-5613-48ee-996e-097b18f24582"
+          }
+        }
+      ],
+      "_postman_id": "224a214f-eaca-4852-bd09-695e0f2c7e74",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"userName\":\"annapurna@techmojo.in\",\n    \"password\":\"Anna@123\"\n}",
+          "options": {
+            "raw": {}
+          }
+        },
+        "url": "{{url}}/ib-security/user/doLogin"
+      },
+      "response": []
+    },
+    {
+      "name": "https://api-stage.connectpay.com/merchant/providers?countryCode=DE&pageNo=1&pageSize=1000",
+      "_postman_id": "36b42f22-e512-444f-a96c-ceea8ea18ae4",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "{{AccessToken}}"
+          }
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json;version=1"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "x-request-id",
+            "value": "b885e3cc-8fe2-4f6b-91a1-3289d663b41b"
+          },
+          {
+            "warning": "This is a duplicate header and will be overridden by the Authorization header generated by Postman.",
+            "key": "Authorization",
+            "value": "Bearer hZAoqSFyCpKAAQIPjAwnCTqNrlG7"
+          }
+        ],
+        "url": {
+          "raw": "https://api-qa.connectpay.com/merchant/providers?countryCode=DE&pageNo=1",
+          "protocol": "https",
+          "host": [
+            "api-qa",
+            "connectpay",
+            "com"
+          ],
+          "path": [
+            "merchant",
+            "providers"
+          ],
+          "query": [
+            {
+              "key": "countryCode",
+              "value": "DE"
+            },
+            {
+              "key": "pageNo",
+              "value": "1"
+            },
+            {
+              "key": "pageSize",
+              "value": "100",
+              "disabled": true
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "https://onlinebanking-qa.connectpay.com/ib-security/secure/ob-psd2/apigee/authCode",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var jsonData = JSON.parse(responseBody);",
+              "pm.environment.set(\"code\",jsonData.data.code);"
+            ],
+            "type": "text/javascript",
+            "id": "59c70235-bba4-4ca8-8221-76d7a765358f"
+          }
+        }
+      ],
+      "_postman_id": "52edee76-1f41-4a66-bbb9-b460da7ef6f0",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "{{Authorization}}"
+          }
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "authority",
+            "value": "onlinebanking-qa.connectpay.com"
+          },
+          {
+            "key": "sec-ch-ua",
+            "value": "\"Google Chrome\";v=\"87\", \" Not;A Brand\";v=\"99\", \"Chromium\";v=\"87\""
+          },
+          {
+            "key": "sec-ch-ua-mobile",
+            "value": "?0"
+          },
+          {
+            "key": "authorization",
+            "value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbm5hcHVybmFAdGVjaG1vam8uaW4iLCJhdXRoQ29kZSI6IjFlNmI3MTNhLWY1NDctNDZiNS05ZjhiLTliNDdiMWM1NjY0OCIsInVzZXJOYW1lIjoiYW5uYXB1cm5hQHRlY2htb2pvLmluIiwib3RwU3RhdHVzIjoiT1RQX1ZFUklGSUVEIiwiQ1VTVE9NRVJfSUQiOiIxMSJ9.DAIV-QaxvdQCjSE1R-u4FqfW6JwKWxGm0FyRsotcHwHFk85BzafzwA2eawfNnfNrHKdEWZKAj7RcJnKmX86hyw"
+          },
+          {
+            "key": "elastic-apm-traceparent",
+            "value": "00-914a82dc4a94c4ad26255b2ec3e22692-8bc1e0abc53c6a20-01"
+          },
+          {
+            "key": "content-type",
+            "value": "application/json"
+          },
+          {
+            "key": "accept",
+            "value": "application/json, text/plain, */*"
+          },
+          {
+            "key": "user-agent",
+            "value": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36"
+          },
+          {
+            "key": "ip-address",
+            "value": "undefined"
+          },
+          {
+            "key": "origin",
+            "value": "https://onlinebanking-qa.connectpay.com"
+          },
+          {
+            "key": "sec-fetch-site",
+            "value": "same-origin"
+          },
+          {
+            "key": "sec-fetch-mode",
+            "value": "cors"
+          },
+          {
+            "key": "sec-fetch-dest",
+            "value": "empty"
+          },
+          {
+            "key": "referer",
+            "value": "https://onlinebanking-qa.connectpay.com/"
+          },
+          {
+            "key": "accept-language",
+            "value": "en-GB,en-US;q=0.9,en;q=0.8"
+          },
+          {
+            "key": "cookie",
+            "value": "_ga=GA1.2.221576043.1612418405; _fbp=fb.1.1612418414800.1857440657"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"clientKey\": \"uGA9jAausVA1Z2GUV28VLHKrc2Tujkpj\",\n    \"grantType\": [],\n    \"authorizationId\":\"{{authorizationId}}\",\n    \"pin\": \"123123\"\n}",
+          "options": {
+            "raw": {}
+          }
+        },
+        "url": "https://onlinebanking-qa.connectpay.com/ib-security/secure/ob-psd2/apigee/authCode"
+      },
+      "response": []
+    },
+    {
+      "name": "isAccountFlow",
+      "_postman_id": "b1e81ace-061c-45a8-bf4c-8f8e4a227a13",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZDllN2E0ZS02YmU3LTQ5OGQtYTZjNy1mN2QyOWQ2ODk3YjgiLCJhdXRoQ29kZSI6IjMzNGJjMDE1LTMxZDctNDNmNC05YmY4LWQwMTgyMDg2N2IzMyIsInBheW1lbnRSZWZlcmVuY2UiOiJhZDllN2E0ZS02YmU3LTQ5OGQtYTZjNy1mN2QyOWQ2ODk3YjgifQ.zwu9X7Kob5efylJhmdwVOCBSElgaJfWUBUek37rhIEvX7dnNRDMkL9WIkca6fLp_zayaHLHD9WD7TouTDXIddg"
+          },
+          {
+            "key": "jsessionid",
+            "value": "3ac3ce01-065b-47d1-99d4-93897477ca8f"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"id\" :\"14c4d366-b5de-4caf-baa5-5ae7427c4337\"\n}",
+          "options": {
+            "raw": {}
+          }
+        },
+        "url": "https://pay-dev.connectpay.com/hp/secure/isAccountFlow"
+      },
+      "response": []
+    },
+    {
+      "name": "Oweners",
+      "_postman_id": "28278e67-1e88-46fc-be2b-742a582c3eae",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZDllN2E0ZS02YmU3LTQ5OGQtYTZjNy1mN2QyOWQ2ODk3YjgiLCJhdXRoQ29kZSI6IjMzNGJjMDE1LTMxZDctNDNmNC05YmY4LWQwMTgyMDg2N2IzMyIsInBheW1lbnRSZWZlcmVuY2UiOiJhZDllN2E0ZS02YmU3LTQ5OGQtYTZjNy1mN2QyOWQ2ODk3YjgifQ.zwu9X7Kob5efylJhmdwVOCBSElgaJfWUBUek37rhIEvX7dnNRDMkL9WIkca6fLp_zayaHLHD9WD7TouTDXIddg"
+          },
+          {
+            "key": "jsessionid",
+            "value": "3ac3ce01-065b-47d1-99d4-93897477ca8f"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Length",
+            "value": "<calculated when request is sent>"
+          }
+        ],
+        "url": "https://pay-dev.connectpay.com/hp/secure/accounts/owners"
+      },
+      "response": []
+    },
+    {
+      "name": "isAccountFlow1",
+      "_postman_id": "d93d00f3-deef-4b17-b936-64999ef34f62",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "authority",
+            "value": "pay-qa.connectpay.com"
+          },
+          {
+            "key": "sec-ch-ua",
+            "value": "\"Google Chrome\";v=\"89\", \"Chromium\";v=\"89\", \";Not A Brand\";v=\"99\""
+          },
+          {
+            "key": "accept",
+            "value": "application/json, text/plain, */*"
+          },
+          {
+            "key": "content-type",
+            "value": "application/json"
+          },
+          {
+            "key": "authorization",
+            "value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5ZGYzYTIwYi1hOGUyLTQxZjEtYmQ4OC0xM2Y5MWMwZTc5M2QiLCJhdXRoQ29kZSI6Ijc2Y2NjMjNkLTU5NWYtNDY3OC04NWFkLTdlOTk5MjE5ZTk1NSIsInBheW1lbnRSZWZlcmVuY2UiOiI5ZGYzYTIwYi1hOGUyLTQxZjEtYmQ4OC0xM2Y5MWMwZTc5M2QifQ.FWrLlZIIBlEQYOQDts1mUOInl-4MtDuNrEzqXCIC5oSyBkH2BkdIvEFEEyKY8C4EdEWhjrEhJy0EqWLFmNiJCg"
+          },
+          {
+            "key": "sec-ch-ua-mobile",
+            "value": "?0"
+          },
+          {
+            "key": "user-agent",
+            "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36"
+          },
+          {
+            "key": "jsessionid",
+            "value": "26b6b308-23da-450b-88f6-c621b0b52555"
+          },
+          {
+            "key": "origin",
+            "value": "https://pay-qa.connectpay.com"
+          },
+          {
+            "key": "sec-fetch-site",
+            "value": "same-origin"
+          },
+          {
+            "key": "sec-fetch-mode",
+            "value": "cors"
+          },
+          {
+            "key": "sec-fetch-dest",
+            "value": "empty"
+          },
+          {
+            "key": "referer",
+            "value": "https://pay-qa.connectpay.com/?key=76ccc23d-595f-4678-85ad-7e999219e955"
+          },
+          {
+            "key": "accept-language",
+            "value": "en-US,en;q=0.9"
+          },
+          {
+            "key": "cookie",
+            "value": "cd_user_id=178cde6b09660-06fc01aef1bac2-c3f3568-100200-178cde6b09717f"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"id\":\"6f489828-f9b3-4cc1-bb34-bc8afa152b0e\"}",
+          "options": {
+            "raw": {}
+          }
+        },
+        "url": "https://pay-qa.connectpay.com/hp/secure/isAccountFlow"
+      },
+      "response": []
+    },
+    {
+      "name": "AccountFlow",
+      "_postman_id": "4e983cfb-335e-4bb8-8c9f-85b2bcc6d6ed",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "authority",
+            "value": "pay-qa.connectpay.com"
+          },
+          {
+            "key": "sec-ch-ua",
+            "value": "\"Google Chrome\";v=\"89\", \"Chromium\";v=\"89\", \";Not A Brand\";v=\"99\""
+          },
+          {
+            "key": "accept",
+            "value": "application/json, text/plain, */*"
+          },
+          {
+            "key": "content-type",
+            "value": "application/json"
+          },
+          {
+            "key": "authorization",
+            "value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyYjYxMmQzNC1mMDdlLTQ0ZTgtODdlNi1iMzYyZDJmMjlkYWYiLCJhdXRoQ29kZSI6IjljMTUwNWJlLWMwMTYtNDdmNy1iNjM4LTAxOTAyMTRjMjI5NCIsInBheW1lbnRSZWZlcmVuY2UiOiIyYjYxMmQzNC1mMDdlLTQ0ZTgtODdlNi1iMzYyZDJmMjlkYWYifQ.0pKcdlCObW21J9ufFJrGVyQh4vXCAQBpJ-BRoc9iHINFWuuY3ab788iDbQaM5AwpkMlLW4nVquB6k_hnKPcESA"
+          },
+          {
+            "key": "sec-ch-ua-mobile",
+            "value": "?0"
+          },
+          {
+            "key": "user-agent",
+            "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36"
+          },
+          {
+            "key": "jsessionid",
+            "value": "0e6cabc6-1b97-45df-996b-de68a83a1b71"
+          },
+          {
+            "key": "origin",
+            "value": "https://pay-qa.connectpay.com"
+          },
+          {
+            "key": "sec-fetch-site",
+            "value": "same-origin"
+          },
+          {
+            "key": "sec-fetch-mode",
+            "value": "cors"
+          },
+          {
+            "key": "sec-fetch-dest",
+            "value": "empty"
+          },
+          {
+            "key": "referer",
+            "value": "https://pay-qa.connectpay.com/consent?key=9c1505be-c016-47f7-b638-0190214c2294"
+          },
+          {
+            "key": "accept-language",
+            "value": "en-US,en;q=0.9"
+          },
+          {
+            "key": "cookie",
+            "value": "cd_user_id=178cde6b09660-06fc01aef1bac2-c3f3568-100200-178cde6b09717f; _ga=GA1.2.1319725709.1618561023; _gcl_au=1.1.1622505305.1618561023; _fbp=fb.1.1618561024495.73442299"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"id\":\"3d106b97-ce39-43c6-b5d0-66cd5e7e89db\"}",
+          "options": {
+            "raw": {}
+          }
+        },
+        "url": "https://pay-qa.connectpay.com/hp/secure/isAccountFlow"
+      },
+      "response": []
+    },
+    {
+      "name": "getConnectionsListSE_customerID",
+      "_postman_id": "8f42f197-3821-49bf-b291-5c177174f8ee",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "App-id",
+            "value": "JFslZwzZvAbv6mQV-j2pgZVvuvSmX1rTSdag48IBF7A"
+          },
+          {
+            "key": "Secret",
+            "value": "GeWgC0EaqvrlHlmlqQh85LPeZlLx3m9nMN0EcsHPRMs"
+          }
+        ],
+        "url": {
+          "raw": "https://www.saltedge.com/api/v5/connections?customer_id=510883788843125523",
+          "protocol": "https",
+          "host": [
+            "www",
+            "saltedge",
+            "com"
+          ],
+          "path": [
+            "api",
+            "v5",
+            "connections"
+          ],
+          "query": [
+            {
+              "key": "customer_id",
+              "value": "510883788843125523"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "getConnectionsListSE_customerID Copy",
+      "_postman_id": "f425428f-6b2b-4903-974b-4a115658d5c7",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "App-id",
+            "value": "JFslZwzZvAbv6mQV-j2pgZVvuvSmX1rTSdag48IBF7A"
+          },
+          {
+            "key": "Secret",
+            "value": "GeWgC0EaqvrlHlmlqQh85LPeZlLx3m9nMN0EcsHPRMs"
+          }
+        ],
+        "url": {
+          "raw": "https://www.saltedge.com/api/v5/connections?customer_id=461626031522974358",
+          "protocol": "https",
+          "host": [
+            "www",
+            "saltedge",
+            "com"
+          ],
+          "path": [
+            "api",
+            "v5",
+            "connections"
+          ],
+          "query": [
+            {
+              "key": "customer_id",
+              "value": "461626031522974358"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "getConnectionDetails",
+      "_postman_id": "550c0d06-646e-41e8-8a15-935aa245a765",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "App-id",
+            "value": "JFslZwzZvAbv6mQV-j2pgZVvuvSmX1rTSdag48IBF7A"
+          },
+          {
+            "key": "Secret",
+            "value": "GeWgC0EaqvrlHlmlqQh85LPeZlLx3m9nMN0EcsHPRMs"
+          }
+        ],
+        "url": "https://www.saltedge.com/api/v5/connections/461505931864181591"
+      },
+      "response": []
+    },
+    {
+      "name": "https://www.saltedge.com/api/v5/consents/444352063564942294?connection_id=444334986431039670",
+      "_postman_id": "f9e1bb18-62bf-4a2a-b9ba-0ece25140a14",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "App-id",
+            "value": "JFslZwzZvAbv6mQV-j2pgZVvuvSmX1rTSdag48IBF7A"
+          },
+          {
+            "key": "Secret",
+            "value": "GeWgC0EaqvrlHlmlqQh85LPeZlLx3m9nMN0EcsHPRMs"
+          }
+        ],
+        "url": {
+          "raw": "https://www.saltedge.com/api/v5/consents/444352063564942294?connection_id=444334986431039670",
+          "protocol": "https",
+          "host": [
+            "www",
+            "saltedge",
+            "com"
+          ],
+          "path": [
+            "api",
+            "v5",
+            "consents",
+            "444352063564942294"
+          ],
+          "query": [
+            {
+              "key": "connection_id",
+              "value": "444334986431039670"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "AccountsCall",
+      "_postman_id": "ac499eae-193e-4803-8a66-1dd68c7274c6",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "authority",
+            "value": "pay-stage.connectpay.com"
+          },
+          {
+            "key": "sec-ch-ua",
+            "value": "\"Google Chrome\";v=\"89\", \"Chromium\";v=\"89\", \";Not A Brand\";v=\"99\""
+          },
+          {
+            "key": "pragma",
+            "value": "no-cache"
+          },
+          {
+            "key": "sec-ch-ua-mobile",
+            "value": "?0"
+          },
+          {
+            "key": "authorization",
+            "value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmYWI2MjI0Mi1lNDA4LTQxMjMtOWQ4Mi0zMDQ5ZDY3MGFlNjMiLCJhdXRoQ29kZSI6ImMyMTM0Yzk0LWI1ZGUtNDY1MS1iNGNiLTVlZmIwYTJjN2E1NCIsInBheW1lbnRSZWZlcmVuY2UiOiJmYWI2MjI0Mi1lNDA4LTQxMjMtOWQ4Mi0zMDQ5ZDY3MGFlNjMifQ.8zPcw8Tb5yS7qT3X4KedAyxxlKfey1bHkr5sOuBWJ-dBzGCs1BjBpAPT7Xn8CdXZHuqKsrfuNL4NNwN0sU0LDw"
+          },
+          {
+            "key": "elastic-apm-traceparent",
+            "value": "00-437ba94b18e4d121ade98421ecd38ccc-34bca48643825594-01"
+          },
+          {
+            "key": "content-type",
+            "value": "application/json"
+          },
+          {
+            "key": "accept",
+            "value": "application/json, text/plain, */*"
+          },
+          {
+            "key": "cache-control",
+            "value": "no-cache"
+          },
+          {
+            "key": "user-agent",
+            "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36"
+          },
+          {
+            "key": "jsessionid",
+            "value": "a16ae9c2-5210-440a-9f8c-31386a27f91b"
+          },
+          {
+            "key": "expires",
+            "value": "Sat, 01 Jan 2000 00:00:00 GMT"
+          },
+          {
+            "key": "sec-fetch-site",
+            "value": "same-origin"
+          },
+          {
+            "key": "sec-fetch-mode",
+            "value": "cors"
+          },
+          {
+            "key": "sec-fetch-dest",
+            "value": "empty"
+          },
+          {
+            "key": "referer",
+            "value": "https://pay-stage.connectpay.com/accounts/redirect?connection_id=464288054895446039&key=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmYWI2MjI0Mi1lNDA4LTQxMjMtOWQ4Mi0zMDQ5ZDY3MGFlNjMiLCJhdXRoQ29kZSI6ImMyMTM0Yzk0LWI1ZGUtNDY1MS1iNGNiLTVlZmIwYTJjN2E1NCIsInBheW1lbnRSZWZlcmVuY2UiOiJmYWI2MjI0Mi1lNDA4LTQxMjMtOWQ4Mi0zMDQ5ZDY3MGFlNjMifQ.1yjVuDevzr9K-H_nLidlJq7zR8FDTQ9nOKqqjMyYpyYAt8rHzClggt8CsAgOFW4y14BjSOI62L52a0c9K6Ok4g"
+          },
+          {
+            "key": "accept-language",
+            "value": "en-US,en;q=0.9"
+          },
+          {
+            "key": "cookie",
+            "value": "cd_user_id=178cde6b09660-06fc01aef1bac2-c3f3568-100200-178cde6b09717f; _ga=GA1.2.1319725709.1618561023; _gcl_au=1.1.1622505305.1618561023; _fbp=fb.1.1618561024495.73442299"
+          }
+        ],
+        "url": "https://pay-stage.connectpay.com/hp/secure/accounts"
+      },
+      "response": []
+    },
+    {
+      "name": "consentConnection",
+      "_postman_id": "2446ab69-5911-4977-9794-277e8a1a4a31",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "App-id",
+            "value": "eT6-f_u8...Ya1ok"
+          },
+          {
+            "key": "Secret",
+            "value": "QURi...bwyIVw"
+          }
+        ],
+        "url": {
+          "raw": "https://www.saltedge.com/api/v5/consents/444352063564942294?connection_id=444334986431039670",
+          "protocol": "https",
+          "host": [
+            "www",
+            "saltedge",
+            "com"
+          ],
+          "path": [
+            "api",
+            "v5",
+            "consents",
+            "444352063564942294"
+          ],
+          "query": [
+            {
+              "key": "connection_id",
+              "value": "444334986431039670"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "https://api.thechecker.co/credit-balance?api_key=17c36d11372d4b64be4640391a46a5dacdc1dda49407665a3dc815adde46cc95anna",
+      "_postman_id": "18bd4e1f-704c-4647-91ef-889ba4e64656",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.thechecker.co/credit-balance?api_key=17c36d11372d4b64be4640391a46a5dacdc1dda49407665a3dc815adde46cc95anna",
+          "protocol": "https",
+          "host": [
+            "api",
+            "thechecker",
+            "co"
+          ],
+          "path": [
+            "credit-balance"
+          ],
+          "query": [
+            {
+              "key": "api_key",
+              "value": "17c36d11372d4b64be4640391a46a5dacdc1dda49407665a3dc815adde46cc95anna"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "https://jupiter-qa.connectpay.com/cpBackoffice/customers/140/contracts",
+      "_postman_id": "4280fa21-040d-48bd-883d-08bf7f4f2edf",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "authority",
+            "value": "jupiter-qa.connectpay.com"
+          },
+          {
+            "key": "sec-ch-ua",
+            "value": "\"Google Chrome\";v=\"93\", \" Not;A Brand\";v=\"99\", \"Chromium\";v=\"93\""
+          },
+          {
+            "key": "accept",
+            "value": "application/json, text/plain, */*"
+          },
+          {
+            "key": "x-auth-token",
+            "value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbm5hcHVybmFAdGVjaG1vam8uaW4iLCJ1c2VyTmFtZSI6ImFubmFwdXJuYUB0ZWNobW9qby5pbiIsInV1aWQiOiIzODA2ZjgyNS1iZWE4LTQ5YWQtYTNhNi05ZWIzNGI0NGUzMjgiLCJncm91cCI6IjVjMmNkMzc1LWRlNTYtNGI0NC1iMGE1LTdlYTM0MjRmNjQ3ZCJ9.XTgnPvpsJv6_y9LvWOY2OtrnWi8nocAwCvM6fiN5J5wq6PuIoeX4k0NGRJx7g_nQBOyWzLGRC5MaIpgX0b34rQ"
+          },
+          {
+            "key": "sec-ch-ua-mobile",
+            "value": "?0"
+          },
+          {
+            "key": "user-agent",
+            "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.63 Safari/537.36"
+          },
+          {
+            "key": "sec-ch-ua-platform",
+            "value": "\"Windows\""
+          },
+          {
+            "key": "sec-fetch-site",
+            "value": "same-origin"
+          },
+          {
+            "key": "sec-fetch-mode",
+            "value": "cors"
+          },
+          {
+            "key": "sec-fetch-dest",
+            "value": "empty"
+          },
+          {
+            "key": "referer",
+            "value": "https://jupiter-qa.connectpay.com/customer-list"
+          },
+          {
+            "key": "accept-language",
+            "value": "en-US,en;q=0.9"
+          },
+          {
+            "key": "cookie",
+            "value": "cd_user_id=179472c1e74220-099917b5aa8176-d7e163f-100200-179472c1e75b18; JSESSIONID=A685C7AEA9B5C896A943E9E7F186955F"
+          }
+        ],
+        "url": "https://jupiter-qa.connectpay.com/cpBackoffice/customers/140/contracts"
+      },
+      "response": []
+    },
+    {
+      "name": "unlockBoAccount",
+      "_postman_id": "ea4813d0-37b0-4096-9c07-c21edf721241",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "authority",
+            "value": "jupiter-dev.connectpay.com"
+          },
+          {
+            "key": "sec-ch-ua",
+            "value": "\"Google Chrome\";v=\"93\", \" Not;A Brand\";v=\"99\", \"Chromium\";v=\"93\""
+          },
+          {
+            "key": "accept",
+            "value": "application/json, text/plain, */*"
+          },
+          {
+            "key": "x-auth-token",
+            "value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbm5hcHVybmFAdGVjaG1vam8uaW4iLCJ1c2VyTmFtZSI6ImFubmFwdXJuYUB0ZWNobW9qby5pbiIsInV1aWQiOiI2YzFjZGMxOC0wYjZjLTQyYTMtYTRmNy04M2ExM2RhODQ2YmIiLCJncm91cCI6IjVjMmNkMzc1LWRlNTYtNGI0NC1iMGE1LTdlYTM0MjRmNjQ3ZCJ9.-2gkDDgeYk13l6M9rdfnJVqvXM_Lvs51UvxybOsHluYZO4PI3Dqw-b85htonGOcxrByr9PGaXrFxqTVIDxf3xQ"
+          },
+          {
+            "key": "content-type",
+            "value": "application/json"
+          },
+          {
+            "key": "sec-ch-ua-mobile",
+            "value": "?0"
+          },
+          {
+            "key": "user-agent",
+            "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.63 Safari/537.36"
+          },
+          {
+            "key": "sec-ch-ua-platform",
+            "value": "\"Windows\""
+          },
+          {
+            "key": "origin",
+            "value": "https://jupiter-dev.connectpay.com"
+          },
+          {
+            "key": "sec-fetch-site",
+            "value": "same-origin"
+          },
+          {
+            "key": "sec-fetch-mode",
+            "value": "cors"
+          },
+          {
+            "key": "sec-fetch-dest",
+            "value": "empty"
+          },
+          {
+            "key": "referer",
+            "value": "https://jupiter-dev.connectpay.com/banking-persons"
+          },
+          {
+            "key": "accept-language",
+            "value": "en-US,en;q=0.9"
+          },
+          {
+            "key": "cookie",
+            "value": "cd_user_id=17beedc6712138-001aeb44d0ab0a-a7d193d-100200-17beedc67136f4; JSESSIONID=22174DA79480ED4916AB819EAE4BCD73"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"personId\": 129,\r\n    \"statusId\": 1,\r\n    \"agent\": \"annapurna@techmojo.in\",\r\n    \"comment\": \"test\"\r\n}",
+          "options": {
+            "raw": {}
+          }
+        },
+        "url": "https://jupiter-dev.connectpay.com/cpBackoffice/backoffice/ib/access/changeAccess"
+      },
+      "response": []
+    },
+    {
+      "name": "emailable",
+      "_postman_id": "c0eab1a2-a300-4e04-9aa8-1277c51a617d",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://api.emailable.com/v1/verify?email=varunwalia100@gm.ail.com&api_key=live_130d828ed38b6903f763&timeout=20",
+          "protocol": "https",
+          "host": [
+            "api",
+            "emailable",
+            "com"
+          ],
+          "path": [
+            "v1",
+            "verify"
+          ],
+          "query": [
+            {
+              "key": "email",
+              "value": "varunwalia100@gm.ail.com"
+            },
+            {
+              "key": "api_key",
+              "value": "live_130d828ed38b6903f763"
+            },
+            {
+              "key": "timeout",
+              "value": "20"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "https://jupiter-qa.connectpay.com/cpBackoffice/customers/merchantapi/transactions",
+      "_postman_id": "adb0da0e-f76a-4761-b246-dcb7dcaea8cc",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "authority",
+            "value": "jupiter-qa.connectpay.com"
+          },
+          {
+            "key": "sec-ch-ua",
+            "value": "\"Chromium\";v=\"94\", \"Google Chrome\";v=\"94\", \";Not A Brand\";v=\"99\""
+          },
+          {
+            "key": "accept",
+            "value": "application/json, text/plain, */*"
+          },
+          {
+            "key": "x-auth-token",
+            "value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbm5hcHVybmFAdGVjaG1vam8uaW4iLCJ1c2VyTmFtZSI6ImFubmFwdXJuYUB0ZWNobW9qby5pbiIsInV1aWQiOiI0YzdhYWYxYi1jYzAxLTRjZDEtODE3Mi0yNjE3NWE0YmI4ZGMiLCJncm91cCI6IjVjMmNkMzc1LWRlNTYtNGI0NC1iMGE1LTdlYTM0MjRmNjQ3ZCxjY2E1NWVkZC0zNGQ5LTQyNzYtOGZmYS0wNjZhZTFiNDYwMzMifQ.M-urTOzWX98Ya8vfh5QHHS6K-13ggi9Xp30QYO_36o_hx9zcOGi4bIuoGQbDe4vV5ABZGZbWbDh7zwrinp2c8Q"
+          },
+          {
+            "key": "content-type",
+            "value": "application/json"
+          },
+          {
+            "key": "sec-ch-ua-mobile",
+            "value": "?0"
+          },
+          {
+            "key": "user-agent",
+            "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.71 Safari/537.36"
+          },
+          {
+            "key": "sec-ch-ua-platform",
+            "value": "\"Windows\""
+          },
+          {
+            "key": "origin",
+            "value": "https://jupiter-qa.connectpay.com"
+          },
+          {
+            "key": "sec-fetch-site",
+            "value": "same-origin"
+          },
+          {
+            "key": "sec-fetch-mode",
+            "value": "cors"
+          },
+          {
+            "key": "sec-fetch-dest",
+            "value": "empty"
+          },
+          {
+            "key": "referer",
+            "value": "https://jupiter-qa.connectpay.com/transaction-list"
+          },
+          {
+            "key": "accept-language",
+            "value": "en-US,en;q=0.9"
+          },
+          {
+            "key": "cookie",
+            "value": "cd_user_id=17c4f8c20613d2-0dbefbb0b23eda-b7a1a38-100200-17c4f8c20622f0; JSESSIONID=9B186144F5B87DE683B49CDDEB6A4A23"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"txnCreationFromDate\": \"2021-10-12 11:28:24\",\r\n    \"txnCreationEndDate\": \"2021-09-12 11:28:24\",\r\n    \"txnUpdatedFromDate\": \"2021-09-12 11:28:24\",\r\n    \"txnUpdatedEndDate\": \"2021-10-12 11:28:24\",\r\n    \"status\": [\r\n        1,\r\n        2,\r\n        7,\r\n        8,\r\n        10,\r\n        12,\r\n        16,\r\n        17,\r\n        18\r\n    ],\r\n    \"minTxnAmount\": \"1\",\r\n    \"maxTxnAmount\": \"1\",\r\n    \"currency\": \"EUR\",\r\n    \"description\": null,\r\n    \"consumertxnReference\": null,\r\n    \"paymentReference\": null,\r\n    \"merchantName\": null,\r\n    \"brand\": null,\r\n    \"brandId\": null,\r\n    \"creditorAccount\": null,\r\n    \"paymentInstrument\": null,\r\n    \"providerName\": null,\r\n    \"tsp\": null,\r\n    \"providertxnReference\": null,\r\n    \"index\": 0,\r\n    \"size\": 25\r\n}",
+          "options": {
+            "raw": {}
+          }
+        },
+        "url": "https://jupiter-qa.connectpay.com/cpBackoffice/customers/merchantapi/transactions"
+      },
+      "response": []
+    },
+    {
+      "name": "https://jupiter-qa.connectpay.com/cpBackoffice/customers/contracts",
+      "_postman_id": "4fd267a4-720e-4f0e-95b9-e51661d354dd",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "authority",
+            "value": "jupiter-qa.connectpay.com"
+          },
+          {
+            "key": "sec-ch-ua",
+            "value": "\"Google Chrome\";v=\"93\", \" Not;A Brand\";v=\"99\", \"Chromium\";v=\"93\""
+          },
+          {
+            "key": "accept",
+            "value": "application/json, text/plain, */*"
+          },
+          {
+            "key": "x-auth-token",
+            "value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbm5hcHVybmFAdGVjaG1vam8uaW4iLCJ1c2VyTmFtZSI6ImFubmFwdXJuYUB0ZWNobW9qby5pbiIsInV1aWQiOiIyM2QwM2RiNS02NWQ3LTRjOWUtYjdlMC0yMjg0ZjhhODBiNTciLCJncm91cCI6IjVjMmNkMzc1LWRlNTYtNGI0NC1iMGE1LTdlYTM0MjRmNjQ3ZCJ9.p_axqOMFBWNxONsLQfqpUsNOgQe8OvjSchCw7P6HC-_zcv0chj91oebnCiY7Hj9lxWpkKm6v9fajEpZv5m83rA"
+          },
+          {
+            "key": "content-type",
+            "value": "application/json"
+          },
+          {
+            "key": "sec-ch-ua-mobile",
+            "value": "?0"
+          },
+          {
+            "key": "user-agent",
+            "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.63 Safari/537.36"
+          },
+          {
+            "key": "sec-ch-ua-platform",
+            "value": "\"Windows\""
+          },
+          {
+            "key": "origin",
+            "value": "https://jupiter-qa.connectpay.com"
+          },
+          {
+            "key": "sec-fetch-site",
+            "value": "same-origin"
+          },
+          {
+            "key": "sec-fetch-mode",
+            "value": "cors"
+          },
+          {
+            "key": "sec-fetch-dest",
+            "value": "empty"
+          },
+          {
+            "key": "referer",
+            "value": "https://jupiter-qa.connectpay.com/customer-list"
+          },
+          {
+            "key": "accept-language",
+            "value": "en-US,en;q=0.9"
+          },
+          {
+            "key": "cookie",
+            "value": "cd_user_id=17beedc6712138-001aeb44d0ab0a-a7d193d-100200-17beedc67136f4; JSESSIONID=3D2FDAC61EDC365D24DA8C9E6A0AF299"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"product\":\"BAAS\",\"startDate\":\"2021-09-24\",\"comment\":\"test\",\"customerId\":224,\"documents\":{\"BAAS_1632479104566191\":\"Screenshot 2021-04-19 160743.png\"}}",
+          "options": {
+            "raw": {}
+          }
+        },
+        "url": "https://jupiter-qa.connectpay.com/cpBackoffice/customers/contracts"
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ],
+        "id": "ac748880-38bd-4c48-88f9-e9ac8e33bf7c"
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ],
+        "id": "f2ada02c-0b8d-4a30-9591-e69e6da132d7"
+      }
+    }
+  ]
+}
